@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mousumi's Love Sanctuary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Hind+Siliguri:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --love-red: #ff4d6d;
+            --love-pink: #ff85a1;
+            --soft-white: #fff0f3;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            background: radial-gradient(circle, #ffb3c1, #ff4d6d);
+            height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+            overflow: hidden;
+        }
+
+        /* হার্ট শেপ কন্টেইনার */
+        .heart-app {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            background: white;
+            transform: rotate(-45deg);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            display: flex; justify-content: center; align-items: center;
+            animation: heartBeat 1.5s infinite;
+        }
+
+        .heart-app::before, .heart-app::after {
+            content: '';
+            position: absolute;
+            width: 350px; height: 350px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .heart-app::before { top: -175px; left: 0; }
+        .heart-app::after { left: 175px; top: 0; }
+
+        @keyframes heartBeat {
+            0% { transform: rotate(-45deg) scale(1); }
+            15% { transform: rotate(-45deg) scale(1.05); }
+            30% { transform: rotate(-45deg) scale(1); }
+        }
+
+        /* অ্যাপের ভেতরের কন্টেন্ট */
+        .content {
+            transform: rotate(45deg); /* হার্টের ভেতরে সোজা করার জন্য */
+            z-index: 10;
+            text-align: center;
+            width: 250px;
+            color: var(--love-red);
+        }
+
+        .avatar {
+            font-size: 3rem; margin-bottom: 10px;
+        }
+
+        h1 { font-size: 1.4rem; margin: 0; color: #c9184a; }
+        p { font-size: 0.85rem; font-weight: 600; margin: 5px 0; }
+
+        .msg-display {
+            background: var(--soft-white);
+            padding: 15px; border-radius: 15px;
+            margin: 15px 0; font-size: 0.8rem;
+            min-height: 40px; border: 1px dashed var(--love-pink);
+        }
+
+        .love-btn {
+            background: var(--love-red);
+            color: white; border: none;
+            padding: 12px 20px; border-radius: 25px;
+            font-weight: bold; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            transition: 0.3s;
+        }
+
+        /* ক্লিক করলে আসা হার্ট */
+        .floating-heart {
+            position: absolute;
+            pointer-events: none;
+            z-index: 100;
+            animation: floatUp 3s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-300px) scale(2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart-app" id="mainHeart">
+        <div class="content">
+            <div class="avatar">❤️</div>
+            <h1>Mousumi</h1>
+            <p>Ritu-al of Love</p>
+            
+            <div class="msg-display" id="loveMsg">
+                বাটন টিপলে আপনার জন্য ভালোবাসা আসবে!
+            </div>
+
+            <button class="love-btn" onclick="triggerLove()">SEND LOVE</button>
+            <div style="margin-top: 15px; font-size: 0.7rem; opacity: 0.7;">
+                You are Precious 💖
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function triggerLove() {
+            // ১. মেসেজ আপডেট
+            const messages = [
+                "মৌসুমী, আপনি অনন্য! 💖",
+                "নিজেকে ভালোবাসুন সবার আগে। 🌸",
+                "আপনার হাসি পৃথিবীর শ্রেষ্ঠ সুন্দর। ✨",
+                "সব কষ্ট মুছে নতুন ভোর আসুক। ❤️"
+            ];
+            document.getElementById('loveMsg').innerText = messages[Math.floor(Math.random() * messages.length)];
+
+            // ২. স্ক্রিন জুড়ে হার্ট ওড়ানো (Function inside Function)
+            function createHearts() {
+                for(let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.innerHTML = ['❤️','💖','💕','💗'][Math.floor(Math.random()*4)];
+                        heart.className = 'floating-heart';
+                        heart.style.left = Math.random() * 100 + 'vw';
+                        heart.style.top = Math.random() * 100 + 'vh';
+                        heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                        document.body.appendChild(heart);
+                        
+                        setTimeout(() => heart.remove(), 3000);
+                    }, i * 100);
+                }
+            }
+            createHearts();
+        }
+    </script>
+</body>
+</html>
